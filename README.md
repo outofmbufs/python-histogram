@@ -23,6 +23,29 @@ EXAMPLE:
 The result is there are three distinct x values: 1, 5, 9.
 The count for x=1 is 2; the counts for x=5 and x=9 are both 1.
 
+## METHODS
+
+    h.record(x)     # Adds one to the count of occurrences of x.
+    h[x]            # The count of x. Raises KeyError if count is zero.
+    x in h          # True if x has a non-zero count.
+    h.n             # Sum of all counts in h
+    h.clear()       # Reset h to initial state.
+
+Two `Counter()` methods are provided:
+
+    h.elements()    # Like Counter.elements.
+                    # If h[x] == N, this generates 'x' N times.
+                    # NOTE: not in any particular order.
+
+    h.most_common() # Return list of x values and their counts,
+                    # ordered by count. See Counter.most_common
+
+Iterating a histogram returns each x value with a non-zero count (once).
+Example:
+
+    for x in h:
+        print(f"At least one {x} was recorded")
+
 ## x values
 In general x values should be arithmetic, but ANY hashable python data
 type can be used with some caveats. For example, here is a histogram
