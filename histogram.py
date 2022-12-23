@@ -407,13 +407,17 @@ class MappedHistogram(RangedHistogram):
     MUST BE SUBCLASSED and the subclass must define a mapper() method.
     """
 
-    def record(self, x, /, *, n=1):
-        """Record one or more x values, which will be mapped."""
-        super().record(self.mapper(x), n=n)
-
     def __getitem__(self, index):
         """Return count for index, which will be mapped: self.mapper(index)."""
         return super().__getitem__(self.mapper(index))
+
+    def __setitem__(self, index, value):
+        """Set count for index, which will be mapped: self.mapper(index)."""
+        return super().__setitem__(self.mapper(index), value)
+
+    def __delitem__(self, index):
+        """Delete count for index, which will be mapped: self.mapper(index)."""
+        return super().__delitem__(self.mapper(index))
 
     # Note that the definition of 'in' for MappedHistogram is that
     # the **mapped value** of item is 'in'.
