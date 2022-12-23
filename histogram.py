@@ -130,6 +130,7 @@ class Histogram(dict):
         yield from sorted(super().__iter__())
 
     # like dictionary.get - but default value is zero rather than None
+    # (so the only reason for this override is to change the default)
     def get(self, key, default=0):
         return super().get(key, default)
 
@@ -712,6 +713,17 @@ if __name__ == "__main__":
                 with self.subTest(h=h):
                     for i in range(1, 10):
                         h.record(i, n=i)
+                    for i in range(1, 10):
+                        self.assertEqual(h[i], i)
+
+                    # same but actually record it N times
+                    # this matters because the first recording
+                    # of an entry (even if with n>1) is different
+                    # code path than the Nth recording of an entry.
+                    h.clear()
+                    for i in range(1, 10):
+                        for _ in range(0, i):
+                            h.record(i)
                     for i in range(1, 10):
                         self.assertEqual(h[i], i)
 
