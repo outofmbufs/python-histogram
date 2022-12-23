@@ -131,10 +131,7 @@ class Histogram(dict):
 
     # like dictionary.get - but default value is zero rather than None
     def get(self, key, default=0):
-        try:
-            return self[key]
-        except KeyError:
-            return default
+        return super().get(key, default)
 
     def elements(self):
         """Generate all the recorded x values.
@@ -423,9 +420,6 @@ class MappedHistogram(RangedHistogram):
     # the **mapped value** of item is 'in'.
     def __contains__(self, item):
         return super().__contains__(self.mapper(item))
-
-    def get(self, key, default=0):
-        return super().get(self.mapper(key), default=default)
 
 
 # This subclass implements a simple modulus histogram.
