@@ -1103,4 +1103,15 @@ if __name__ == "__main__":
                 h.record(c)
             self.assertEqual(h[17], len(teststring))
 
+        def test_dictmap2(self):
+            # dictmaps without autostable weren't actually working
+            # for the second and beyond record() of an item (!).
+            # This is a test specifically for that.
+            ix = 'abcdefghijklmnopqrstuvwxyz'
+            m = {c: i for i, c in enumerate(ix)}
+            h = DictMapHistogram(dictmap=m, auto_stable=False)
+            h.record('q')
+            h.record('q')
+            self.assertEqual(h['q'], 2)
+
     unittest.main()
